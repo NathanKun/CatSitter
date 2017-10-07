@@ -9,7 +9,9 @@ volatile int sleep_count = 0; // Keep track of how many sleep cycles have been c
 const long interval = 470; // Interval in minutes between waking and doing tasks.
 // needed before the interval defined above elapses. Not that this does integer math.
 
-const int TURNING_TIME = 700;
+const int SERVO_PIN = 5
+
+const int TURNING_TIME = 550;
 const int CW_MIN = 90;
 const int CW_MAX = 85;
 const int CCW_MIN = 99;
@@ -62,7 +64,7 @@ void setup(void) {
   // Disable digital input buffers on all analog input pins by setting bits 0-5 to one.
   DIDR0 = DIDR0 | B00111111;
   
-  myservo.attach(5);
+  myservo.attach(SERVO_PIN);
   turn(TURNING_TIME);
 }
 
