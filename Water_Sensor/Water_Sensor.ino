@@ -15,42 +15,35 @@ void setup()
 
 void loop()
 {
-  for(i = 0; i < 5; i++){
+  for(i = 0; i < 10; i++){
     waterSensorData = analogRead(WATER_SENSOR_PIN); //Read data from analog pin and store it to value variable
   
-    if (waterSensorData<=480){ 
+    if (waterSensorData<=560){ 
       deep = 0;
     }
-    else if (waterSensorData>480 && waterSensorData<=530){ 
-      deep = 5;
-    }
-    else if (waterSensorData>530 && waterSensorData<=615){ 
+    else if (waterSensorData>560 && waterSensorData<=600){ 
       deep = 10;
     }
-    else if (waterSensorData>615 && waterSensorData<=660){ 
-      deep = 15;
-    } 
-    else if (waterSensorData>660 && waterSensorData<=680){ 
+    else if (waterSensorData>600 && waterSensorData<=620){ 
       deep = 20;
     }
-    else if (waterSensorData>680 && waterSensorData<=690){ 
-      deep = 25;
+    else if (waterSensorData>620 && waterSensorData<=640){ 
+      deep = 30;
     }
-    else if (waterSensorData>690 && waterSensorData<=700){ 
-      deep = 23;
-    }
-    else if (waterSensorData>700 && waterSensorData<=705){ 
-      deep = 35;
-    }
-    else if (waterSensorData>705){ 
+    else if (waterSensorData>640 && waterSensorData<=660){ 
       deep = 40;
     }
+    else if (waterSensorData>660){ 
+      deep = 50;
+    }
     deepSum += deep;
-    delay(200);
+    delay(100);
+    
+    Serial.print(deep);
+    Serial.print("  ");
   }
   
-  Serial.println(deepSum / 5);
-  Serial.print(deepSum / 5 * 100 / 40);
+  Serial.print(deepSum * 100 / 10 / 50);
   Serial.println("%");
   deepSum = 0;
 
