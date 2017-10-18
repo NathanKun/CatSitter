@@ -107,7 +107,7 @@ void goToSleep() {
 }
 
 // mesure and send
-void mesureAndSend() {
+void mesureAndSend(boolean isfed) {
   int foodMM, foodPCT, waterMM, waterPCT;
   espRestart();
   delay(5000);
@@ -154,8 +154,15 @@ void mesureAndSend() {
   deepSum = 0;
 
   // ESP8266
+  String fed = "";
+  if(isfed) {
+    fed = "1";
+  } else {
+    fed = "0";
+  }
+  
   String msg = String("GET /DashBoard/uploadData.php?") +
-               "f=" + foodMM + "&fp=" + foodPCT + "&w=" + waterMM + "&wp=" + waterPCT +
+               "f=" + foodMM + "&fp=" + foodPCT + "&w=" + waterMM + "&wp=" + waterPCT + "&isfed=" + fed +
                " HTTP/1.1\r\nHost: catprogrammer.com\r\n";
 
   esp8266.println("AT+CIPSSLSIZE=4096");
@@ -212,10 +219,10 @@ void loop(void) {
 
   if (sleep_count == SLEEP_MESURE1 || sleep_count == SLEEP_MESURE2
       || sleep_count == SLEEP_MESURE3) {
-    mesureAndSend();
+    mesureAndSend(false);
   } else if (sleep_count == SLEEP_TURN_SERVO) {
     turn(TURNING_TIME);
-    mesureAndSend();
+    mesureAndSend(true);
     sleep_count = 0;
   }
 }
