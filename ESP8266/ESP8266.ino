@@ -34,41 +34,41 @@ void espPrintResponse() {
 
 void setup()
 {
+  // Open serial communications and wait for port to open:
+  Serial.begin(115200);
+  Serial.println("Start");
+
+  String msg = String("GET /DashBoard/uploadData.php?") +
+               "f=" + 99 + "&fp=" + 99 + "&w=" + 99 + "&wp=" + 99 + "&isfed=" + 1 +
+               " HTTP/1.1\r\nHost: catprogrammer.com\r\n";
+
+  
+  Serial.println(msg);
   pinMode(ESP_RST_PIN, OUTPUT);
   digitalWrite(ESP_RST_PIN, HIGH);
   
   espRestart();
   delay(3000);
   
-  String msg = "GET /DashBoard/uploadData.php?dt=2017-10-07+14:40:01&t=23.7&h=56.6 HTTP/1.1\r\nHost: catprogrammer.com";
-  
-  // Open serial communications and wait for port to open:
-  Serial.begin(115200);
-  Serial.println("Start");
   
   // set the data rate for the SoftwareSerial port
   esp8266.begin(115200);
   espPrintResponse();
   
-  Serial.println("AT+CIPSSLSIZE=4096");
-  esp8266.println("AT+CIPSSLSIZE=4096");
-  delay(1000);
-  espPrintResponse();
-  
-  Serial.println("AT+CIPSTART=\"SSL\",\"104.224.146.172\",443");
-  esp8266.println("AT+CIPSTART=\"SSL\",\"104.224.146.172\",443");
-  delay(1000);
+  esp8266.println("AT+CIPSTART=\"TCP\",\"104.224.146.172\",80");
+  delay(2000);
   espPrintResponse();
 
-  Serial.println("AT+CIPSEND=" + String(msg.length() + 2));
   esp8266.println("AT+CIPSEND=" + String(msg.length() + 2));
   delay(1000);
   espPrintResponse();
-  
-  Serial.println(msg);
+
   esp8266.println(msg);
-  delay(1000);
+  delay(3000);
   espPrintResponse();
+
+  delay(10000);
+  espSleep();
 }
 
 void loop() // run over and over

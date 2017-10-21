@@ -63,8 +63,8 @@ void espRestart() {
 
 void espPrintResponse() {
   /*while (esp8266.available()) {
-    //Serial.println(esp8266.readStringUntil('\n'));
-    }*/
+    Serial.println(esp8266.readStringUntil('\n'));
+  }*/
 }
 
 // servo
@@ -155,21 +155,22 @@ void mesureAndSend(boolean isfed) {
 
   // ESP8266
   String fed = "";
-  if(isfed) {
+  if (isfed) {
     fed = "1";
   } else {
     fed = "0";
   }
-  
+
   String msg = String("GET /DashBoard/uploadData.php?") +
                "f=" + foodMM + "&fp=" + foodPCT + "&w=" + waterMM + "&wp=" + waterPCT + "&isfed=" + fed +
                " HTTP/1.1\r\nHost: catprogrammer.com\r\n";
 
-  esp8266.println("AT+CIPSSLSIZE=4096");
-  delay(1000);
-  espPrintResponse();
+  /*esp8266.println("AT+CIPSSLSIZE=4096");
+    delay(1000);
+    espPrintResponse();*/
 
-  esp8266.println("AT+CIPSTART=\"SSL\",\"104.224.146.172\",443");
+  //esp8266.println("AT+CIPSTART=\"SSL\",\"104.224.146.172\",443");
+  esp8266.println("AT+CIPSTART=\"TCP\",\"104.224.146.172\",80");
   delay(2000);
   espPrintResponse();
 
@@ -209,7 +210,7 @@ void setup(void) {
 
   // turn, mesure and send
   turn(TURNING_TIME);
-  mesureAndSend();
+  mesureAndSend(true);
 
 }
 
