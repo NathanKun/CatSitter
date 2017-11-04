@@ -38,10 +38,9 @@ SoftwareSerial esp8266(ESP_RX_PIN, ESP_TX_PIN); // RX, TX
 
 // watchdog
 volatile int sleep_count = 0; // Keep track of how many sleep cycles have been completed.
-const long INTERVAL = 350; // interval in minutes between waking and doing tasks.
+const long INTERVAL = 470; // interval in minutes between waking and doing tasks.
 const long SLEEP_TURN_SERVO = (INTERVAL * 60) / 8;
 const long SLEEP_MESURE1 = SLEEP_TURN_SERVO / 4;
-
 const long SLEEP_MESURE2 = SLEEP_MESURE1 * 2;
 const long SLEEP_MESURE3 = SLEEP_MESURE1 * 3;
 
