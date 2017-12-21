@@ -125,33 +125,24 @@ void mesureAndSend(boolean isfed) {
   }
 
   // water sensor
-  for (i = 0; i < 10; i++) {
-    waterSensorData = analogRead(WATER_SENSOR_PIN); //Read data from analog pin and store it to value variable
-    if (waterSensorData <= 560) {
-      deep = 0;
-    }
-    else if (waterSensorData > 560 && waterSensorData <= 600) {
-      deep = 10;
-    }
-    else if (waterSensorData > 600 && waterSensorData <= 610) {
-      deep = 20;
-    }
-    else if (waterSensorData > 610 && waterSensorData <= 620) {
-      deep = 30;
-    }
-    else if (waterSensorData > 620 && waterSensorData <= 640) {
-      deep = 40;
-    }
-    else if (waterSensorData > 640) {
-      deep = 50;
-    }
-    deepSum += deep;
-    delay(100);
-  }
-  waterMM = deepSum / 10;
-  waterPCT = waterMM * 100 / 50;
+  waterSensorData = analogRead(WATER_SENSOR_PIN); //Read data from analog pin and store it to value variable
 
-  deepSum = 0;
+  if (waterSensorData <= 100) { // 6 - 9
+    waterMM = 3;
+    waterPCT = 100;
+  }
+  else if (waterSensorData > 100 && waterSensorData <= 700) { // 537 - 540
+    waterMM = 2;
+    waterPCT = 66;
+  }
+  else if (waterSensorData > 700 && waterSensorData <= 900) { // 805 - 809
+    waterMM = 1;
+    waterPCT = 33;
+  }
+  else if (waterSensorData > 900) { // 943 - 948
+    waterMM = 0;
+    waterPCT = 0;
+  }
 
   // ESP8266
   String fed = "";

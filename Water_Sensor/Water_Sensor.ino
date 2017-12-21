@@ -4,48 +4,34 @@ int i;
 
 int waterSensorData;          //Variable to store the incomming data
 int deep = 0;
-int deepSum = 0;
 
 void setup()
 {
   //Begin serial communication
   Serial.begin(9600);
-  
+
 }
 
 void loop()
 {
-  for(i = 0; i < 10; i++){
-    waterSensorData = analogRead(WATER_SENSOR_PIN); //Read data from analog pin and store it to value variable
-  
-    if (waterSensorData<=560){ 
-      deep = 0;
-    }
-    else if (waterSensorData>560 && waterSensorData<=600){ 
-      deep = 10;
-    }
-    else if (waterSensorData>600 && waterSensorData<=620){ 
-      deep = 20;
-    }
-    else if (waterSensorData>620 && waterSensorData<=640){ 
-      deep = 30;
-    }
-    else if (waterSensorData>640 && waterSensorData<=660){ 
-      deep = 40;
-    }
-    else if (waterSensorData>660){ 
-      deep = 50;
-    }
-    deepSum += deep;
-    delay(100);
-    
-    Serial.print(deep);
-    Serial.print("  ");
+  waterSensorData = analogRead(WATER_SENSOR_PIN); //Read data from analog pin and store it to value variable
+
+  if (waterSensorData <= 100) { // 6 - 9
+    deep = 3;
   }
-  
-  Serial.print(deepSum * 100 / 10 / 50);
-  Serial.println("%");
-  deepSum = 0;
+  else if (waterSensorData > 100 && waterSensorData <= 700) { // 537 - 540
+    deep = 2;
+  }
+  else if (waterSensorData > 700 && waterSensorData <= 900) { // 805 - 809
+    deep = 1;
+  }
+  else if (waterSensorData > 900) { // 943 - 948
+    deep = 0;
+  }
+  Serial.print(waterSensorData);
+  Serial.print("  :  ");
+  Serial.println(deep);
+  delay(500);
 
 }
 
